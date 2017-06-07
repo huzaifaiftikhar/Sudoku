@@ -30,6 +30,18 @@ public class Game extends Activity{
         setContentView(puzzleView);
         puzzleView.requestFocus();
     }
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Music.play(this,R.raw.game);
+    }
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        Music.stop(this);
+    }
 // ...
     /** Open the Keypad if there are any valid moves */
     protected void showKeypadOrError(int x, int y) {

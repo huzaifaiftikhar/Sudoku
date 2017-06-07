@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.MenuInflater;
 import android.util.Log;
 
 //public class Sudoku extends Activity {
@@ -27,6 +26,18 @@ import android.util.Log;
         aboutButton.setOnClickListener(this);
         View exitButton = findViewById(R.id.exit_button);
         exitButton.setOnClickListener(this);
+    }
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Music.play(this,R.raw.main);
+    }
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        Music.stop(this);
     }
 
         // ...
