@@ -75,6 +75,9 @@ import android.util.Log;
                 case R.id.new_button:
                     openNewGameDialog();
                     break;
+                case R.id.continue_button:
+                    startGame(Game.DIFFICULTY_CONTINUE);
+                    break;
 // More buttons go here (if any) ...
             }
         }

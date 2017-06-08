@@ -11,6 +11,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.os.Bundle;
+import android.os.Parcelable;
 
 /**
  * Created by Huzaifa on 12-Jul-16.
@@ -18,11 +20,35 @@ import android.view.animation.AnimationUtils;
 public class PuzzleView extends View{
     private static final String TAG = "Sudoku" ;
     private final Game game;
+    private static final String SELX = "selX";
+    private static final String SELY = "selY";
+    private static final String VIEW_STATE = "viewState";
+    private static final int ID = 31;
     public PuzzleView(Context context) {
         super(context);
         this.game = (Game) context;
         setFocusable(true);
         setFocusableInTouchMode(true);
+        setId(ID);
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState(){
+        Parcelable p = super.onSaveInstanceState();
+        Log.d(TAG,"onSaveInstanceState");
+        Bundle bundle = new Bundle();
+        bundle.putInt(SELX,selX);
+        bundle.putInt(SELY,selY);
+        bundle.putParcelable(VIEW_STATE, p);
+        return bundle;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state){
+        Log.d(TAG,"onRestoreInstanceState");
+        Bundle bundle = (Bundle) state;
+        select(bundle.getInt(SELX),bundle.getInt(SELY));
+        super.onRestoreInstanceState(bundle.getParcelable(VIEW_STATE));
     }
 // ...
     private float width; // width of one tile

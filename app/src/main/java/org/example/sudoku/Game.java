@@ -18,9 +18,13 @@ public class Game extends Activity{
     public static final int DIFFICULTY_HARD = 2;
     private int puzzle[] = new int[9 * 9];
     private PuzzleView puzzleView;
+    private static final String PREF_PUZZLE = "puzzle";
+    protected static final int DIFFICULTY_CONTINUE = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // If the activity is restrated -> continue the game
+        getIntent().putExtra(KEY_DIFFICULTY, DIFFICULTY_CONTINUE);
         Log.d(TAG, "onCreate" );
         int diff = getIntent().getIntExtra(KEY_DIFFICULTY,
                 DIFFICULTY_EASY);
@@ -41,6 +45,7 @@ public class Game extends Activity{
     {
         super.onPause();
         Music.stop(this);
+        getPreferences(MODE_PRIVATE).edit().putString(PREF_PUZZLE, toPuzzleString(puzzle)).commit();
     }
 // ...
     /** Open the Keypad if there are any valid moves */
@@ -152,8 +157,9 @@ public class Game extends Activity{
     /** Given a difficulty level, come up with a new puzzle */
     private int[] getPuzzle(int diff) {
         String puz;
-// TODO: Continue last game
         switch (diff) {
+            case DIFFICULTY_CONTINUE:
+                puz = getPreferences(MODE_PRIVATE).getString(PREF_PUZZLE,easyPuzzle);
             case DIFFICULTY_HARD:
                 puz = hardPuzzle;
                 break;
